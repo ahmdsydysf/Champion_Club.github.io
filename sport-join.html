@@ -249,31 +249,34 @@
 
             <div class="col-md-3 col-sm-4 col-12 order-md-1 order-1 username-input">
               <label for="inputEmail4" class="form-label">Username</label>
-              <input type="text" class="form-control" id="inputEmail4" placeholder="Full Name">
+              <input type="text" name="username" class="form-control important-input" id="inputEmail4"
+                placeholder="Full Name">
             </div>
             <div class="col-md-3 col-sm-4 col-12  order-md-2 order-2 birthdate-input">
               <label for="inputPassword4" class="form-label">Birthdate</label>
-              <input type="date" class="form-control" id="inputPassword4">
+              <input type="date" name="birthdate" class="form-control important-input" id="inputPassword4">
             </div>
             <div class="col-md-3 col-sm-4 col-12  order-md-3 order-3 height-input">
               <label for="inputAddress" class="form-label">Height</label>
-              <input type="number" class="form-control" min="100" id="inputAddress" placeholder="Height">
+              <input type="number" name="hight" class="form-control important-input" min="100" id="inputAddress"
+                placeholder="Height">
             </div>
             <div class="col-md-3 col-sm-4 col-12  order-md-4 order-4 weight-input">
               <label for="inputAddress2" class="form-label">Weight</label>
-              <input type="number" class="form-control" min="35" id="inputAddress2" placeholder="Weight">
+              <input type="number" name="weight" class="form-control important-input" min="35" id="inputAddress2"
+                placeholder="Weight">
             </div>
             <div class="col-md-3 col-sm-4 col-12 my-md-3  order-md-5 order-5 personal-photo">
               <label for="formFile" class="form-label">Trainee Photo</label>
-              <input class="form-control" name="" type="file" id="formFile">
+              <input class="form-control important-input" name="trainer_photo" type="file" id="formFile">
             </div>
             <div class="col-md-3 col-sm-4 col-12 my-md-3  order-md-6 order-6 birth-certificate">
               <label for="formFile2" class="form-label">birth certificate</label>
-              <input class="form-control" name="" type="file" id="formFile2">
+              <input class="form-control important-input" name="child_birth_day" type="file" id="formFile2">
             </div>
             <div class="col-md-3 col-sm-4 col-12 my-md-3  order-md-7 order-7 select-sport">
               <label for="inputState" class="form-label">Select Sport</label>
-              <select id="inputState" class="form-control custom-select">
+              <select id="inputState" name="select_sport" class="form-control custom-select important-input">
                 <option selected>Football</option>
                 <option>Handball</option>
                 <option>Basketball</option>
@@ -282,7 +285,7 @@
             </div>
             <div class="col-md-3 col-sm-4 col-12 my-md-3  order-md-8 order-8 trainer-level">
               <label for="inputState1" class="form-label">Trainee level</label>
-              <select id="inputState1" class="form-control custom-select">
+              <select id="inputState1" name="select_level" class="form-control custom-select important-input">
                 <option selected>Amateur</option>
                 <option>Mid level</option>
                 <option>professional</option>
@@ -291,23 +294,67 @@
             <div class="col-md-8 my-md-3  order-md-9 order-sm-10 order-9 start-end-date">
               <div class="form-group row">
                 <label for="start-date" class="col-2">Start Date:</label>
-                <input type="date" class="form-control col-4" id="start-date" value="" onchange="updateEndDate()">
-
+                <input type="date" class="form-control col-4 important-date" name="start_date" id="start-date" value=""
+                  onchange="adjustDate(this)">
                 <label for="end-date" class="col-2">End Date:</label>
-                <input type="date" class="form-control col-4" id="end-date" value="" disabled>
+                <input type="date" class="form-control col-4 important-date" name="end_date" id="end-date" value=""
+                  disabled>
               </div>
             </div>
+
+            <script>
+              let tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              // Set the default start date to tomorrow
+              document.getElementById("start-date").valueAsDate = tomorrow;
+
+
+              let startDate = new Date(document.getElementById("start-date").value);
+              let endDate = new Date(startDate);
+              endDate.setMonth(endDate.getMonth() + 1);
+              document.getElementById("end-date").valueAsDate = endDate;
+
+              function adjustDate(event) {
+                event.setAttribute('data-status', 'on');
+                var targetDiv = document.querySelector('input[data-status]');
+                if (document.contains(targetDiv)) {
+                  // Get tomorrow's date
+                  function updateEndDate() {
+                    let startDate = new Date(targetDiv.value);
+                    let selectedDate = new Date(targetDiv.value);
+                    if (selectedDate < tomorrow) {
+                      targetDiv.valueAsDate = tomorrow;
+                    } else {
+
+                      let endDate = new Date(startDate);
+                      endDate.setMonth(endDate.getMonth() + 1);
+                      targetDiv.nextElementSibling.nextElementSibling.valueAsDate = endDate;
+                    }
+                  }
+
+                  // Function to update the end date when the start date is changed
+
+                  updateEndDate();
+                  event.removeAttribute('data-status');
+                }
+
+
+
+              }
+
+            </script>
             <fieldset class="col-md-4 col-sm-4 row align-items-baseline trained-before order-md-10 order-sm-9 order-10">
               <label for="" class="col-6">Trained before?</label>
 
               <div class="col-6 row my-3">
                 <div class="custom-control custom-radio col">
-                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked=""
-                    required="">
+                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input important-radio"
+                    checked="" required="">
                   <label class="custom-control-label" for="credit">Yes</label>
                 </div>
                 <div class="custom-control custom-radio col">
-                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input important-radio"
+                    required="">
                   <label class="custom-control-label" for="debit">No</label>
                 </div>
               </div>
@@ -327,8 +374,8 @@
                   </div>
                 </div>
                 <div class="form-floating col-sm-6">
-                  <textarea class="form-control h-100" placeholder="Leave a comment here"
-                    id="floatingTextarea2"></textarea>
+                  <textarea name="comments" class="form-control h-100 important-input"
+                    placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
                   <label for="floatingTextarea2">notice</label>
                 </div>
               </div>
@@ -351,49 +398,12 @@
         const submitBtn = document.querySelector('.reg');
         const addNewPlayerForm = document.querySelector('.add-new-player-form');
         const formContainer = document.querySelector('.form-container');
+        let cloneCount = 0;
 
         // Add an event listener to the "Add New" button
         addNewBtn.addEventListener('click', function () {
-          // Get the input fields from the register form
-          const nameInput = document.querySelector('.username-input');
-          const birthdateInput = document.querySelector('.birthdate-input');
-          const heightInput = document.querySelector('.height-input');
-          const weightInput = document.querySelector('.weight-input');
-          const personalInput = document.querySelector('.personal-photo');
-          const birthInput = document.querySelector('.birth-certificate');
-          const selectInput = document.querySelector('.select-sport');
-          const trainerInput = document.querySelector('.trainer-level');
-          const startInput = document.querySelector('.start-end-date');
-          const trainedInput = document.querySelector('.trained-before');
-          const sportDetailsInput = document.querySelector('.sport-details');
 
-          // Clone the input fields
-          const newNameInput = nameInput.cloneNode(true);
-          const newBirthdateInput = birthdateInput.cloneNode(true);
-          const newHeightInput = heightInput.cloneNode(true);
-          const newWeightInput = weightInput.cloneNode(true);
-          const newPersonalInput = personalInput.cloneNode(true);
-          const newBirthInput = birthInput.cloneNode(true);
-          const newSelectInput = selectInput.cloneNode(true);
-          const newTrainerInput = trainerInput.cloneNode(true);
-          const newStartInput = startInput.cloneNode(true);
-          const newTrainedInput = trainedInput.cloneNode(true);
-          const newSportDetailsInput = sportDetailsInput.cloneNode(true);
 
-          // Clear the input values in the new inputs
-          newNameInput.value = '';
-          newBirthdateInput.value = '';
-          newHeightInput.value = '';
-          newWeightInput.value = '';
-          newPersonalInput.value = '';
-          newBirthInput.value = '';
-          newSelectInput.value = '';
-          newTrainerInput.value = '';
-          newStartInput.value = '';
-          newTrainedInput.value = '';
-          newSportDetailsInput.value = '';
-
-          // Create a new form group for the new inputs
           const newFormGroup = document.createElement('div');
           const newcloseFormBTN = document.createElement('span');
           newcloseFormBTN.innerHTML = `
@@ -403,24 +413,63 @@
             </button>
           </span>` ;
 
-          newFormGroup.classList.add('form-group', 'row', 'p-5', 'add-new-player-form', 'g-3');
-          // Append the new inputs to the new form group
-          // addNewPlayerForm.appendChild(newNameInput);
-          newFormGroup.appendChild(newNameInput);
-          newFormGroup.appendChild(newBirthdateInput);
-          newFormGroup.appendChild(newHeightInput);
-          newFormGroup.appendChild(newWeightInput);
-          newFormGroup.appendChild(newPersonalInput);
-          newFormGroup.appendChild(newBirthInput);
-          newFormGroup.appendChild(newSelectInput);
-          newFormGroup.appendChild(newTrainerInput);
-          newFormGroup.appendChild(newStartInput);
-          newFormGroup.appendChild(newTrainedInput);
-          newFormGroup.appendChild(newSportDetailsInput);
-          newFormGroup.appendChild(newcloseFormBTN);
+          newFormGroup.classList.add('form-group', 'row', 'p-5', 'add-new-player-form', 'g-3', 'mt-5');
 
-          // Append the new form group before the submit button   
-          formContainer.insertBefore(newFormGroup, addNewPlayerForm);
+          newFormGroup.appendChild(newcloseFormBTN);
+          addNewPlayerForm.insertAdjacentElement('afterend', newFormGroup)
+
+
+          // Get the input fields from the register form
+          function cloneAndClearInputFields(inputClass) {
+            const nameInput = document.querySelector(inputClass);
+            const newNameInput = nameInput.cloneNode(true);
+            newNameInput.value = '';
+            const elementsInsideDiv = newNameInput.querySelectorAll('.important-input'); // select all elements within the div
+            elementsInsideDiv.forEach((element) => {
+              const oldid = element.getAttribute('id'); // get the id attribute of the element
+              const newId = oldid + '-' + cloneCount; // generate unique ID
+              const oldName = element.getAttribute('name'); // get the id attribute of the element
+              const newName = oldName + '-' + cloneCount; // generate unique ID
+              element.setAttribute('name', newName); // set the new ID
+              element.setAttribute('id', newId); // set the new ID
+              cloneCount++;
+            });
+            const radioInsideDiv = newNameInput.querySelectorAll('.important-radio'); // select all radio within the div
+            radioInsideDiv.forEach((element) => {
+              const oldid = element.getAttribute('id'); // get the id attribute of the element
+              const newId = oldid + '-' + cloneCount; // generate unique ID
+              element.setAttribute('id', newId); // set the new ID
+              element.nextElementSibling.setAttribute('for', newId)
+              cloneCount++;
+
+            });
+            radioInsideDiv.forEach((element) => {
+              const oldName = element.getAttribute('name'); // get the id attribute of the element
+              const newName = oldName + '-' + cloneCount; // generate unique ID
+              element.setAttribute('name', newName); // set the new ID
+            });
+
+            const dateInsideDiv = newNameInput.querySelectorAll('.important-date'); // select all radio within the div
+            dateInsideDiv.forEach((element) => {
+              const oldid = element.getAttribute('id'); // get the id attribute of the element
+              const newId = oldid + '-' + cloneCount; // generate unique ID
+              element.setAttribute('id', newId); // set the new ID
+              const oldName = element.getAttribute('name'); // get the id attribute of the element
+              const newName = oldName + '-' + cloneCount; // generate unique ID
+              element.setAttribute('name', newName); // set the new ID
+              cloneCount++;
+
+            });
+            newFormGroup.appendChild(newNameInput);
+          }
+
+          inputsArray = ['.username-input', '.birthdate-input', '.height-input', '.weight-input', '.personal-photo', '.birth-certificate', '.select-sport', '.trainer-level', '.start-end-date', '.trained-before', '.sport-details']
+
+          // Call the function with the input classes
+          inputsArray.forEach(function (elem) {
+            cloneAndClearInputFields(elem);
+          });
+
         });
 
         function del_form(dv) {
@@ -527,39 +576,7 @@
   <script src="js/wow.min.js"></script>
   <script src="js/imagesloaded.pkgd.min.js"></script>
   <script src="js/scripts.js"></script>
-  <script>
-    // Get tomorrow's date
-    let tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
 
-
-
-    // Set the default start date to tomorrow
-    document.getElementById("start-date").valueAsDate = tomorrow;
-
-
-    let startDate = new Date(document.getElementById("start-date").value);
-    let endDate = new Date(startDate);
-    endDate.setMonth(endDate.getMonth() + 1);
-    document.getElementById("end-date").valueAsDate = endDate;
-
-
-
-    // Function to update the end date when the start date is changed
-    function updateEndDate() {
-      let startDate = new Date(document.getElementById("start-date").value);
-      let selectedDate = new Date(document.getElementById("start-date").value);
-      if (selectedDate < tomorrow) {
-        document.getElementById("start-date").valueAsDate = tomorrow;
-      } else {
-
-        let endDate = new Date(startDate);
-        endDate.setMonth(endDate.getMonth() + 1);
-        document.getElementById("end-date").valueAsDate = endDate;
-      }
-    }
-
-  </script>
 </body>
 
 </html>
